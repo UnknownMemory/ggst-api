@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "ggst-api"
+version = "0.0.1"
+description = ""
+authors = ["UnknownMemory <https://github.com/UnknownMemory>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+msgpack = "^1.0.3"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+mypy = "^0.942"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

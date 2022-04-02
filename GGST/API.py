@@ -1,8 +1,10 @@
+from calendar import day_abbr
 import msgpack
 import requests
 import logging
 
-from typing import Final, List
+from typing import Final, List, Union
+
 
 PLAYSTATION: Final = 1
 PC: Final = 3
@@ -11,9 +13,10 @@ class API:
     def __init__(self) -> None:
         self.host = "https://ggst-game.guiltygear.com"
         self.token = None
+        self.currentUser = None
 
-    def request(self, endpoint: str, body: List):
-        headers = {'User-Agent': 'Steam', 'Content-Type': "application/x-www-form-urlencoded"}
+    def request(self, endpoint: str, body: List) -> Union[bytes, None]:
+        headers = {'User-Agent': 'Steam', 'Content-Type': "application/x-www-form-urlencoded", 'Cache-Control': 'no-cache'}
         url: str = self.host + endpoint 
         messagePackData = msgpack.packb(body).hex()
 
@@ -21,11 +24,11 @@ class API:
             res = requests.post(url, data={'data': messagePackData}, headers=headers)
         except ConnectionError as e:
             logging.exception(f"An error as occured: {e}")
-            return
+            return None
         
         return res.content
 
-    def login(self, steamID: str, steamIDHex: str, platform: str, version: str = "0.0.1"):
+    def login(self, steamID: str, steamIDHex: str, platform: str, version: str = "0.1.1") -> Union[List, None]:
         platformID: int = 0
 
         if(platform.lower() == "playstation"):
@@ -34,12 +37,12 @@ class API:
             platformID = PC
         else:
             logging.warning("Platform not recognized. The platform should be either 'pc' or 'playstation'.")
-            return
+            return None
 
         data = [
             [
-                "",
-                "",
+                '',
+                '',
                 6,
                 version,
                 platformID
@@ -49,10 +52,12 @@ class API:
                 steamID,
                 steamIDHex,
                 256,
-                ""
+                ''
             ]
         ]
 
         bytesResponse = self.request("/api/user/login", data)
         res = msgpack.unpackb(bytesResponse)
+        self.token = res[0][0]
+        self.currentUser = res[1][1][0]
         return res

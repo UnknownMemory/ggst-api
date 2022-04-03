@@ -16,6 +16,11 @@ class GGSTAPITests(unittest.TestCase):
         strive: API = API()
         rCode = strive.get_rcode(striveID)
         self.assertIn("Update_Year", rCode.keys())
+    
+    def test_get_total_stats(self):
+        strive: API = API()
+        totalStats = strive.get_total_stats(striveID)
+        self.assertIn("HighRound", totalStats.keys())
 
 if __name__ == '__main__':
     unittest.main()

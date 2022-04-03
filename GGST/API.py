@@ -3,12 +3,9 @@ import requests
 import logging
 import json
 
-from typing import Dict, Final, List, Optional, Union, Any
+from typing import Dict, List, Optional, Union, Any
+from .constants import PLAYSTATION, PC, VERSION, CHARACTERS
 
-
-PLAYSTATION: Final = 1
-PC: Final = 3
-VERSION: Final = "0.1.1"
 
 class API:
     def __init__(self) -> None:
@@ -25,6 +22,13 @@ class API:
             return PC
         else:
             raise ValueError("Platform not recognized. The platform should be either 'pc' or 'playstation'.")
+    
+    @staticmethod
+    def get_character(character: str) -> int:
+        if(character in CHARACTERS.keys()):
+            return CHARACTERS[character]
+        else:
+            raise ValueError("The character was not recognized.")
 
     def request(self, endpoint: str, body: List) -> Union[List, None]:
         headers = {'User-Agent': 'Steam', 'Content-Type': "application/x-www-form-urlencoded", 'Cache-Control': 'no-cache'}
@@ -93,8 +97,9 @@ class API:
 
         return json.loads(res[1][1])
 
-    def get_total_stats(self, playerID: str, character: str = "all", platform: str = "pc"):
+    def get_total_stats(self, playerID: str, character: str = "All", platform: str = "pc"):
         platformID: int = self.get_platform(platform)
+        characterID: int = self.get_character(character)
 
         data = [
             [
@@ -108,12 +113,14 @@ class API:
                 playerID,
                 1,
                 1,
-                -1, # Character ID
+                characterID, # Character ID
                 -1,
                 -1
             ]
         ]
-        return
+
+        res: Any = self.request("/api/statistics/get", data)
+        return json.loads(res[1][1])
 
     # def get_skills_stats(self, playerID):
     #     data = [

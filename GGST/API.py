@@ -3,7 +3,7 @@ import requests
 import logging
 import json
 
-from typing import Final, List, Union, Any
+from typing import Dict, Final, List, Optional, Union, Any
 
 
 PLAYSTATION: Final = 1
@@ -12,9 +12,19 @@ VERSION: Final = "0.1.1"
 
 class API:
     def __init__(self) -> None:
-        self.host = "https://ggst-game.guiltygear.com"
-        self.token = None
-        self.currentUser = None
+        self.host: str = "https://ggst-game.guiltygear.com"
+        self.token: Optional[str] = None
+        self.currentUser: Optional[str] = None
+        self.platform: Optional[int] = None
+    
+    @staticmethod
+    def get_platform(platform: str) -> int:
+        if(platform.lower() == "playstation"):
+            return PLAYSTATION
+        elif (platform.lower() == "pc"):
+            return PC
+        else:
+            raise ValueError("Platform not recognized. The platform should be either 'pc' or 'playstation'.")
 
     def request(self, endpoint: str, body: List) -> Union[List, None]:
         headers = {'User-Agent': 'Steam', 'Content-Type': "application/x-www-form-urlencoded", 'Cache-Control': 'no-cache'}
@@ -32,15 +42,7 @@ class API:
         return unpackedRes
 
     def login(self, steamID: str, steamIDHex: str, platform: str) -> Union[List, None]:
-        platformID: int = 0
-
-        if(platform.lower() == "playstation"):
-            platformID = PLAYSTATION
-        elif (platform.lower() == "pc"):
-            platformID = PC
-        else:
-            logging.warning("Platform not recognized. The platform should be either 'pc' or 'playstation'.")
-            return None
+        platformID: int = self.get_platform(platform)
 
         data: List = [
             [
@@ -62,17 +64,20 @@ class API:
         res: Any = self.request("/api/user/login", data)
         self.token = res[0][0]
         self.currentUser = res[1][1][0]
+        self.platform = platformID
 
         return res
 
-    def get_rcode(self, playerID) -> List:
-        data = [
+    def get_rcode(self, playerID: str, platform: str = "pc") -> Dict:
+        platformID: int = self.get_platform(platform)
+
+        data: List = [
             [
                 self.currentUser if self.currentUser != None else "",
                 self.token if self.token != None else "",
                 6,
                 VERSION,
-                3
+                self.platform if self.platform != None else platformID
             ],
             [
                 playerID,
@@ -88,25 +93,27 @@ class API:
 
         return json.loads(res[1][1])
 
-    # def get_total_stats(self, playerID):
-    #     data = [
-    #         [
-    #             self.currentUser if self.currentUser != None else "",
-    #             self.token if self.token != None else "",
-    #             6,
-    #             VERSION,
-    #             3
-    #         ],
-    #         [
-    #             playerID,
-    #             1,
-    #             1,
-    #             -1, # Character ID
-    #             -1,
-    #             -1
-    #         ]
-    #     ]
-    #     return
+    def get_total_stats(self, playerID: str, character: str = "all", platform: str = "pc"):
+        platformID: int = self.get_platform(platform)
+
+        data = [
+            [
+                self.currentUser if self.currentUser != None else "",
+                self.token if self.token != None else "",
+                6,
+                VERSION,
+                self.platform if self.platform != None else platformID
+            ],
+            [
+                playerID,
+                1,
+                1,
+                -1, # Character ID
+                -1,
+                -1
+            ]
+        ]
+        return
 
     # def get_skills_stats(self, playerID):
     #     data = [

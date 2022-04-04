@@ -1,8 +1,11 @@
 [tool.poetry]
 name = "ggst-api"
 version = "0.0.1"
-description = ""
-authors = ["UnknownMemory <https://github.com/UnknownMemory>"]
+description = "Guilty Gear Strive API wrapper"
+authors = ["UnknownMemory <jeremyschneider21@gmail.com>"]
+packages = [
+    {include = "GGST"}
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"

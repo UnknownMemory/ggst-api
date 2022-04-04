@@ -22,5 +22,10 @@ class GGSTAPITests(unittest.TestCase):
         totalStats = strive.get_total_stats(striveID)
         self.assertIn("HighRound", totalStats.keys())
 
+    def test_get_skills_stats(self):
+        strive: API = API()
+        skillStats = strive.get_skills_stats(striveID)
+        self.assertIn("BRScore_Attack", skillStats.keys())
+
 if __name__ == '__main__':
     unittest.main()

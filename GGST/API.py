@@ -97,11 +97,11 @@ class API:
 
         return json.loads(res[1][1])
 
-    def get_total_stats(self, playerID: str, character: str = "All", platform: str = "pc"):
+    def get_total_stats(self, playerID: str, character: str = "All", platform: str = "pc") -> Dict:
         platformID: int = self.get_platform(platform)
         characterID: int = self.get_character(character)
 
-        data = [
+        data: List = [
             [
                 self.currentUser if self.currentUser != None else "",
                 self.token if self.token != None else "",
@@ -122,22 +122,27 @@ class API:
         res: Any = self.request("/api/statistics/get", data)
         return json.loads(res[1][1])
 
-    # def get_skills_stats(self, playerID):
-    #     data = [
-    #         [
-    #             self.currentUser if self.currentUser != None else "",
-    #             self.token if self.token != None else "",
-    #             6,
-    #             VERSION,
-    #             3
-    #         ],
-    #         [
-    #             playerID,
-    #             2,
-    #             1,
-    #             -1, # Character ID
-    #             -1,
-    #             -1
-    #         ]
-    #     ]
-    #     return
+    def get_skills_stats(self, playerID: str, character: str = "All", platform: str = "pc") -> Dict:
+        platformID: int = self.get_platform(platform)
+        characterID: int = self.get_character(character)
+
+        data: List = [
+            [
+                self.currentUser if self.currentUser != None else "",
+                self.token if self.token != None else "",
+                6,
+                VERSION,
+                self.platform if self.platform != None else platformID,
+            ],
+            [
+                playerID,
+                2,
+                1,
+                characterID, # Character ID
+                -1,
+                -1
+            ]
+        ]
+
+        res: Any = self.request("/api/statistics/get", data)
+        return json.loads(res[1][1])

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ggst-api"
-version = "0.0.1"
+version = "0.0.2"
 description = "Guilty Gear Strive API wrapper"
 authors = ["UnknownMemory <jeremyschneider21@gmail.com>"]
 packages = [

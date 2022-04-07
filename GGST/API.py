@@ -97,7 +97,7 @@ class API:
 
         return json.loads(res[1][1])
 
-    def get_total_stats(self, playerID: str, character: str = "All", platform: str = "pc") -> Dict:
+    def get_matches_stats(self, playerID: str, character: str = "All", platform: str = "pc") -> Dict:
         platformID: int = self.get_platform(platform)
         characterID: int = self.get_character(character)
 

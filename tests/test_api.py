@@ -1,6 +1,6 @@
 import unittest
 
-from GGST.API import API
+from GGST import API
 from .config import steamID, steamIDHex, striveID
 
 
@@ -17,9 +17,9 @@ class GGSTAPITests(unittest.TestCase):
         rCode = strive.get_rcode(striveID)
         self.assertIn("Update_Year", rCode.keys())
     
-    def test_get_total_stats(self):
+    def test_get_matches_stats(self):
         strive: API = API()
-        totalStats = strive.get_total_stats(striveID)
+        totalStats = strive.get_matches_stats(striveID)
         self.assertIn("HighRound", totalStats.keys())
 
     def test_get_skills_stats(self):

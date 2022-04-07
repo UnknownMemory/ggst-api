@@ -20,7 +20,7 @@ CHARACTERS: Final[Dict[str, int]] = {
     "Giovanna": 12,
     "Anji": 13,
     "I-No": 14,
-    "goldlewis": 15,
+    "Goldlewis": 15,
     "Jack-O": 16,
     "Happy-Chaos": 17,
     "Baiken": 18,

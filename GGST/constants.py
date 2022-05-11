@@ -24,5 +24,5 @@ CHARACTERS: Final[Dict[str, int]] = {
     "Jack-O": 16,
     "Happy-Chaos": 17,
     "Baiken": 18,
-    "Testament": 19
+    "Testament": 19,
 }

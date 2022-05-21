@@ -6,6 +6,12 @@ import json
 from typing import Dict, List, Optional, Union, Any
 from .constants import PLAYSTATION, PC, VERSION, CHARACTERS
 
+# api/ranking/total_wins
+# api/ranking/vip
+# api/ranking/monthly_wins
+# api/ranking/chara_level
+# api/ranking/survival
+
 
 class API:
     def __init__(self) -> None:
@@ -114,4 +120,89 @@ class API:
         ]
 
         res: Any = self._request("/api/statistics/get", data)
+        return json.loads(res[1][1])
+
+    def get_chara_level_ranking(self, page: int = 0, platform: str = "pc"):
+        platformID: int = self._get_platform(platform)
+
+        data: List = [
+            [
+                self.currentUser if self.currentUser != None else "",
+                self.token if self.token != None else "",
+                6,
+                VERSION,
+                self.platform if self.platform != None else platformID,
+            ],
+            [page, 0, -1, 0],
+        ]
+
+        res: Any = self._request("/api/ranking/chara_level", data)
+        return json.loads(res[1][1])
+
+    def get_vip_ranking(self, page: int = 0, platform: str = "pc"):
+        platformID: int = self._get_platform(platform)
+
+        data: List = [
+            [
+                self.currentUser if self.currentUser != None else "",
+                self.token if self.token != None else "",
+                6,
+                VERSION,
+                self.platform if self.platform != None else platformID,
+            ],
+            [page, 0, -1, 0],
+        ]
+
+        res: Any = self._request("/api/ranking/vip", data)
+        return json.loads(res[1][1])
+
+    def get_total_wins_ranking(self, page: int = 0, platform: str = "pc"):
+        platformID: int = self._get_platform(platform)
+
+        data: List = [
+            [
+                self.currentUser if self.currentUser != None else "",
+                self.token if self.token != None else "",
+                6,
+                VERSION,
+                self.platform if self.platform != None else platformID,
+            ],
+            [page, 0, -1, 0],
+        ]
+
+        res: Any = self._request("/api/ranking/total_wins", data)
+        return json.loads(res[1][1])
+
+    def get_survival_ranking(self, page: int = 0, platform: str = "pc"):
+        platformID: int = self._get_platform(platform)
+
+        data: List = [
+            [
+                self.currentUser if self.currentUser != None else "",
+                self.token if self.token != None else "",
+                6,
+                VERSION,
+                self.platform if self.platform != None else platformID,
+            ],
+            [page, 0, -1, 0],
+        ]
+
+        res: Any = self._request("/api/ranking/survival", data)
+        return json.loads(res[1][1])
+
+    def get_monthly_wins_ranking(self, page: int = 0, platform: str = "pc"):
+        platformID: int = self._get_platform(platform)
+
+        data: List = [
+            [
+                self.currentUser if self.currentUser != None else "",
+                self.token if self.token != None else "",
+                6,
+                VERSION,
+                self.platform if self.platform != None else platformID,
+            ],
+            ["202205", page, 0, -1, 0],
+        ]
+
+        res: Any = self._request("/api/ranking/monthly_wins", data)
         return json.loads(res[1][1])

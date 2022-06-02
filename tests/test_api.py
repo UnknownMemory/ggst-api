@@ -26,6 +26,31 @@ class GGSTAPITests(unittest.TestCase):
         skillStats = strive.get_skills_stats(striveID)
         self.assertIn("BRScore_Attack", skillStats.keys())
 
+    def test_get_vip_ranking(self):
+        strive: API = API()
+        vipRanking = strive.get_vip_ranking(striveID)
+        self.assertEqual(len(vipRanking), 20)
+
+    def test_total_wins_ranking(self):
+        strive: API = API()
+        winsRanking = strive.get_total_wins_ranking(striveID)
+        self.assertEqual(len(winsRanking), 20)
+
+    def test_chara_level_ranking(self):
+        strive: API = API()
+        charaRanking = strive.get_chara_level_ranking(striveID)
+        self.assertEqual(len(charaRanking), 20)
+
+    def test_survival_ranking(self):
+        strive: API = API()
+        survivalRanking = strive.get_survival_ranking(striveID)
+        self.assertEqual(len(survivalRanking), 20)
+
+    def test_monthly_wins_ranking(self):
+        strive: API = API()
+        monthlyRanking = strive.get_monthly_wins_ranking(striveID)
+        self.assertEqual(len(monthlyRanking), 20)
+
 
 if __name__ == "__main__":
     unittest.main()

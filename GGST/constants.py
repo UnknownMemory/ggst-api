@@ -2,7 +2,7 @@ from typing import Final, Dict
 
 PLAYSTATION: Final[int] = 1
 PC: Final[int] = 3
-VERSION: Final[str] = "0.1.1"
+VERSION: Final[str] = "0.1.2"
 CHARACTERS: Final[Dict[str, int]] = {
     "All": -1,
     "Sol": 0,
@@ -24,5 +24,5 @@ CHARACTERS: Final[Dict[str, int]] = {
     "Jack-O": 16,
     "Happy-Chaos": 17,
     "Baiken": 18,
-    "Testament": 19
+    "Testament": 19,
 }

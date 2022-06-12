@@ -2,6 +2,7 @@ import msgpack
 import requests
 import logging
 import json
+import time
 
 from typing import Dict, List, Optional, Union, Any
 from .constants import PLAYSTATION, PC, VERSION, CHARACTERS
@@ -190,6 +191,7 @@ class API:
 
     def get_monthly_wins_ranking(self, playerID: str, page: int = 0, platform: str = "pc"):
         platformID: int = self._get_platform(platform)
+        currentMonth: str = time.strftime("%Y%m")
 
         data: List = [
             [
@@ -199,7 +201,7 @@ class API:
                 VERSION,
                 self.platform if self.platform != None else platformID,
             ],
-            ["202205", page, 0, -1, 0],
+            [currentMonth, page, 0, -1, 0],
         ]
 
         res: Any = self._request("/api/ranking/monthly_wins", data)

@@ -1,8 +1,8 @@
 import msgpack
 import json
 import time
-
 from typing import Dict, Tuple, Union, Any
+
 from .constants import VERSION, CHARACTERS
 from .utils import get_platform
 from .request import Request
@@ -24,7 +24,8 @@ def login(accountID: str, accountIDHex: str, platform: str) -> Tuple[str, str, i
 
     messagePack = msgpack.packb(req).hex()
 
-    res: Any = Request.post("/api/user/login", messagePack)
+    request: Request = Request()
+    res: Any = request.post("/api/user/login", messagePack)
 
     return res[0][0], res[1][1][0], platformID
 
@@ -33,12 +34,11 @@ class API:
     def __init__(self, user) -> None:
         self.token: Union[str, None] = user[0]
         self.playerID: str = user[1]
-        self.platform: int = user[2]
+        self.platform: int = get_platform(user[2]) if isinstance(user[2], str) else user[2]
         self.request: Request = Request()
 
     # region constants getter
-    @staticmethod
-    def _get_character(character: str) -> int:
+    def _get_character(self, character: str) -> int:
         if character in CHARACTERS.keys():
             return CHARACTERS[character]
         else:

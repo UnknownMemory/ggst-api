@@ -8,15 +8,14 @@ class Request:
     def __init__(self) -> None:
         self.host: str = "https://ggst-game.guiltygear.com"
 
-    @classmethod
-    def post(cls, endpoint: str, messagePack) -> Union[list, None]:
+    def post(self, endpoint: str, messagePack) -> Union[list, None]:
 
         headers = {
             "User-Agent": "Steam",
             "Content-Type": "application/x-www-form-urlencoded",
             "Cache-Control": "no-cache",
         }
-        url: str = cls.host + endpoint
+        url: str = self.host + endpoint
 
         try:
             res = requests.post(url, data={"data": messagePack}, headers=headers)

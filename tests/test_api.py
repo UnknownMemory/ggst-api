@@ -1,13 +1,13 @@
 import unittest
 
-from GGST import API
+import GGST
 from .config import steamID, steamIDHex, striveID
 
 
 class GGSTAPITests(unittest.TestCase):
     def test_login(self):
-        strive: API = API()
-        strive.login(steamID, steamIDHex, "pc")
+        user: GGST.login = GGST.login(steamID, steamIDHex, "pc")
+        strive: GGST.API = GGST.API(user)
         self.assertIsNotNone(strive.token)
         self.assertIsNotNone(strive.currentUser)
 

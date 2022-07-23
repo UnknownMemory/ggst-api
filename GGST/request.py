@@ -1,14 +1,14 @@
-import requests
-import logging
-import msgpack
 from typing import Union
+import logging
+import requests
+import msgpack
 
 
 class Request:
     def __init__(self) -> None:
         self.host: str = "https://ggst-game.guiltygear.com"
 
-    def post(self, endpoint: str, messagePack) -> Union[list, None]:
+    def post(self, endpoint: str, message_pack) -> Union[list, None]:
 
         headers = {
             "User-Agent": "Steam",
@@ -18,11 +18,11 @@ class Request:
         url: str = self.host + endpoint
 
         try:
-            res = requests.post(url, data={"data": messagePack}, headers=headers)
+            res = requests.post(url, data={"data": message_pack}, headers=headers)
         except ConnectionError as e:
             logging.exception(f"An error as occured: {e}")
             return None
 
-        unpackedRes: list = msgpack.unpackb(res.content)
+        unpacked_res: list = msgpack.unpackb(res.content)
 
-        return unpackedRes
+        return unpacked_res

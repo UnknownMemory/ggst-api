@@ -1,15 +1,15 @@
-import msgpack
+from typing import Dict, Tuple, Union, Any
 import json
 import time
-from typing import Dict, Tuple, Union, Any
+import msgpack
 
 from .constants import VERSION, CHARACTERS
 from .utils import get_platform
 from .request import Request
 
 
-def login(accountID: str, accountIDHex: str, platform: str) -> Tuple[str, str, int]:
-    platformID: int = get_platform(platform)
+def login(account_id: str, account_id_hex: str, platform: str) -> Tuple[str, str, int]:
+    platform_id: int = get_platform(platform)
 
     req: list = [
         [
@@ -17,32 +17,31 @@ def login(accountID: str, accountIDHex: str, platform: str) -> Tuple[str, str, i
             "",
             6,
             VERSION,
-            platformID,
+            platform_id,
         ],
-        [1, accountID, accountIDHex, 256, ""],
+        [1, account_id, account_id_hex, 256, ""],
     ]
 
-    messagePack = msgpack.packb(req).hex()
+    message_pack = msgpack.packb(req).hex()
 
     request: Request = Request()
-    res: Any = request.post("/api/user/login", messagePack)
+    res: Any = request.post("/api/user/login", message_pack)
 
-    return res[0][0], res[1][1][0], platformID
+    return res[0][0], res[1][1][0], platform_id
 
 
 class API:
     def __init__(self, user) -> None:
         self.token: Union[str, None] = user[0]
-        self.playerID: str = user[1]
+        self.player_id: str = user[1]
         self.platform: int = get_platform(user[2]) if isinstance(user[2], str) else user[2]
         self.request: Request = Request()
 
     # region constants getter
     def _get_character(self, character: str) -> int:
-        if character in CHARACTERS.keys():
+        if character in CHARACTERS:
             return CHARACTERS[character]
-        else:
-            raise ValueError("The character was not recognized.")
+        raise ValueError("The character was not recognized.")
 
     # endregion
 
@@ -50,8 +49,8 @@ class API:
         req: list = []
 
         header: list = [
-            self.playerID if self.playerID != None else "",
-            self.token if self.token != None else "",
+            self.player_id if self.player_id is not None else "",
+            self.token if self.token is not None else "",
             6,
             VERSION,
             self.platform,
@@ -59,29 +58,29 @@ class API:
 
         req.append(header)
         req.append(body)
-        messagePack = msgpack.packb(req).hex()
+        message_pack = msgpack.packb(req).hex()
 
-        return messagePack
+        return message_pack
 
     def get_rcode(self) -> Dict:
-        data = self._msgpacking([self.playerID, 7, -1, -1, -1, -1])
+        data = self._msgpacking([self.player_id, 7, -1, -1, -1, -1])
 
         res: Any = self.request.post("/api/statistics/get", data)
 
         return json.loads(res[1][1])
 
     def get_matches_stats(self, character: str = "All") -> Dict:
-        characterID: int = self._get_character(character)
+        character_id: int = self._get_character(character)
 
-        data = self._msgpacking([self.playerID, 1, 1, characterID, -1, -1])
+        data = self._msgpacking([self.player_id, 1, 1, character_id, -1, -1])
 
         res: Any = self.request.post("/api/statistics/get", data)
         return json.loads(res[1][1])
 
     def get_skills_stats(self, character: str = "All") -> Dict:
-        characterID: int = self._get_character(character)
+        character_id: int = self._get_character(character)
 
-        data = self._msgpacking([self.playerID, 2, 1, characterID, -1, -1])
+        data = self._msgpacking([self.player_id, 2, 1, character_id, -1, -1])
 
         res: Any = self.request.post("/api/statistics/get", data)
         return json.loads(res[1][1])
@@ -112,9 +111,9 @@ class API:
         return res[1][4]
 
     def get_monthly_wins_ranking(self, page: int = 0):
-        currentMonth: str = time.strftime("%Y%m")
+        current_month: str = time.strftime("%Y%m")
 
-        data = self._msgpacking([currentMonth, page, 0, -1, 0])
+        data = self._msgpacking([current_month, page, 0, -1, 0])
 
         res: Any = self.request.post("/api/ranking/monthly_wins", data)
         return res[1][4]

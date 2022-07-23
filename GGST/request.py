@@ -1,5 +1,4 @@
 import sys
-from typing import Union
 import logging
 import requests
 import msgpack

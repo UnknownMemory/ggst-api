@@ -8,7 +8,7 @@ from .utils import get_platform
 from .request import Request
 
 
-def login(account_id: str, account_id_hex: str, platform: str) -> Tuple[str, str, int]:
+def login(account_id: str, account_id_hex: str, platform: str) -> Tuple[str, int, str]:
     platform_id: int = get_platform(platform)
 
     req: list = [
@@ -27,14 +27,14 @@ def login(account_id: str, account_id_hex: str, platform: str) -> Tuple[str, str
     request: Request = Request()
     res: Any = request.post("/api/user/login", message_pack)
 
-    return res[0][0], res[1][1][0], platform_id
+    return res[1][1][0], platform_id, res[0][0]
 
 
 class API:
-    def __init__(self, user) -> None:
-        self.token: Union[str, None] = user[0]
-        self.player_id: str = user[1]
-        self.platform: int = get_platform(user[2]) if isinstance(user[2], str) else user[2]
+    def __init__(self, player_id, platform, token=None) -> None:
+        self.player_id: str = player_id
+        self.platform: int = get_platform(platform) if isinstance(platform, str) else platform
+        self.token: Union[str, None] = token
         self.request: Request = Request()
 
     # region constants getter

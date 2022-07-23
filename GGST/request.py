@@ -19,8 +19,8 @@ class Request:
 
         try:
             res = requests.post(url, data={"data": message_pack}, headers=headers)
-        except ConnectionError as e:
-            logging.exception(f"An error as occured: {e}")
+        except ConnectionError as error:
+            logging.exception("An error as occured: %s", error)
             return None
 
         unpacked_res: list = msgpack.unpackb(res.content)

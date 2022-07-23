@@ -1,4 +1,4 @@
-from typing import Dict, Tuple, Union, Any
+from typing import Dict, Tuple, Union
 import json
 import time
 import msgpack
@@ -25,7 +25,7 @@ def login(account_id: str, account_id_hex: str, platform: str) -> Tuple[str, int
     message_pack = msgpack.packb(req).hex()
 
     request: Request = Request()
-    res: Any = request.post("/api/user/login", message_pack)
+    res: list = request.post("/api/user/login", message_pack)
 
     return res[1][1][0], platform_id, res[0][0]
 
@@ -65,7 +65,7 @@ class API:
     def get_rcode(self) -> Dict:
         data = self._msgpacking([self.player_id, 7, -1, -1, -1, -1])
 
-        res: Any = self.request.post("/api/statistics/get", data)
+        res: list = self.request.post("/api/statistics/get", data)
 
         return json.loads(res[1][1])
 
@@ -74,7 +74,7 @@ class API:
 
         data = self._msgpacking([self.player_id, 1, 1, character_id, -1, -1])
 
-        res: Any = self.request.post("/api/statistics/get", data)
+        res: list = self.request.post("/api/statistics/get", data)
         return json.loads(res[1][1])
 
     def get_skills_stats(self, character: str = "All") -> Dict:
@@ -82,32 +82,32 @@ class API:
 
         data = self._msgpacking([self.player_id, 2, 1, character_id, -1, -1])
 
-        res: Any = self.request.post("/api/statistics/get", data)
+        res: list = self.request.post("/api/statistics/get", data)
         return json.loads(res[1][1])
 
     # region ranking methods
     def get_chara_level_ranking(self, page: int = 0):
         data = self._msgpacking([page, 0, -1, 0])
 
-        res: Any = self.request.post("/api/ranking/chara_level", data)
+        res: list = self.request.post("/api/ranking/chara_level", data)
         return res[1][4]
 
     def get_vip_ranking(self, page: int = 0):
         data = self._msgpacking([page, 0, -1, 0])
 
-        res: Any = self.request.post("/api/ranking/vip", data)
+        res: list = self.request.post("/api/ranking/vip", data)
         return res[1][4]
 
     def get_total_wins_ranking(self, page: int = 0):
         data = self._msgpacking([page, 0, -1, 0])
 
-        res: Any = self.request.post("/api/ranking/total_wins", data)
+        res: list = self.request.post("/api/ranking/total_wins", data)
         return res[1][4]
 
     def get_survival_ranking(self, page: int = 0):
         data = self._msgpacking([page, 0, -1, 0])
 
-        res: Any = self.request.post("/api/ranking/survival", data)
+        res: list = self.request.post("/api/ranking/survival", data)
         return res[1][4]
 
     def get_monthly_wins_ranking(self, page: int = 0):
@@ -115,7 +115,7 @@ class API:
 
         data = self._msgpacking([current_month, page, 0, -1, 0])
 
-        res: Any = self.request.post("/api/ranking/monthly_wins", data)
+        res: list = self.request.post("/api/ranking/monthly_wins", data)
         return res[1][4]
 
     # endregion

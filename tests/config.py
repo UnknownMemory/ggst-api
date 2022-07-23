@@ -3,6 +3,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-steam_id = os.environ.get("STEAM_ID")
-steam_id_hex = os.environ.get("STEAM_ID_HEX")
-strive_id = os.environ.get("STRIVE_ID")
+STEAM_ID = os.environ.get("STEAM_ID")
+STEAM_ID_HEX = os.environ.get("STEAM_ID_HEX")
+STRIVE_ID = os.environ.get("STRIVE_ID")

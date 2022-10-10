@@ -49,7 +49,7 @@ class API:
         req: list = []
 
         header: list = [
-            self.player_id if self.player_id is not None else "",
+            "",
             self.token if self.token is not None else "",
             6,
             VERSION,

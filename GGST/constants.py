@@ -1,8 +1,9 @@
 from typing import Final, Dict
 
 PLAYSTATION: Final[int] = 1
+XBOX: Final[int] = 2
 PC: Final[int] = 3
-VERSION: Final[str] = "0.1.5"
+VERSION: Final[str] = "0.1.8"
 CHARACTERS: Final[Dict[str, int]] = {
     "All": -1,
     "Sol": 0,
@@ -26,4 +27,5 @@ CHARACTERS: Final[Dict[str, int]] = {
     "Baiken": 18,
     "Testament": 19,
     "Bridget": 20,
+    "Sin": 21,
 }

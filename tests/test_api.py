@@ -25,26 +25,26 @@ class GGSTAPITests(unittest.TestCase):
     def test_get_skills_stats(self):
         skill_stats = self.strive.get_skills_stats()
         self.assertIn("BRScore_Attack", skill_stats.keys())
+    #
+    # def test_get_vip_ranking(self):
+    #     vip_ranking = self.strive.get_vip_ranking()
+    #     self.assertEqual(len(vip_ranking), 20)
 
-    def test_get_vip_ranking(self):
-        vip_ranking = self.strive.get_vip_ranking()
-        self.assertEqual(len(vip_ranking), 20)
+    # def test_total_wins_ranking(self):
+    #     wins_ranking = self.strive.get_total_wins_ranking()
+    #     self.assertEqual(len(wins_ranking), 20)
 
-    def test_total_wins_ranking(self):
-        wins_ranking = self.strive.get_total_wins_ranking()
-        self.assertEqual(len(wins_ranking), 20)
-
-    def test_chara_level_ranking(self):
-        chara_ranking = self.strive.get_chara_level_ranking()
-        self.assertEqual(len(chara_ranking), 20)
-
-    def test_survival_ranking(self):
-        survival_ranking = self.strive.get_survival_ranking()
-        self.assertEqual(len(survival_ranking), 20)
-
-    def test_monthly_wins_ranking(self):
-        monthly_ranking = self.strive.get_monthly_wins_ranking()
-        self.assertEqual(len(monthly_ranking), 20)
+    # def test_chara_level_ranking(self):
+    #     chara_ranking = self.strive.get_chara_level_ranking()
+    #     self.assertEqual(len(chara_ranking), 20)
+    #
+    # def test_survival_ranking(self):
+    #     survival_ranking = self.strive.get_survival_ranking()
+    #     self.assertEqual(len(survival_ranking), 20)
+    #
+    # def test_monthly_wins_ranking(self):
+    #     monthly_ranking = self.strive.get_monthly_wins_ranking()
+    #     self.assertEqual(len(monthly_ranking), 20)
 
 
 if __name__ == "__main__":

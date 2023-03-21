@@ -102,37 +102,34 @@ class API:
         res: list = self.request.post("statistics/get", data)
         return json.loads(res[1][1])
 
-    # region ranking methods
-    def get_chara_level_ranking(self, page: int = 0):
-        data = self._msgpacking([page, 0, -1, 0])
-
-        res: list = self.request.post("ranking/chara_level", data)
-        return res[1][4]
-
-    def get_vip_ranking(self, page: int = 0):
-        data = self._msgpacking([page, 0, -1, 0])
-
-        res: list = self.request.post("ranking/vip", data)
-        return res[1][4]
-
-    def get_total_wins_ranking(self, page: int = 0):
-        data = self._msgpacking([page, 0, -1, 0])
-
-        res: list = self.request.post("ranking/total_wins", data)
-        return res[1][4]
-
-    def get_survival_ranking(self, page: int = 0):
-        data = self._msgpacking([page, 0, -1, 0])
-
-        res: list = self.request.post("ranking/survival", data)
-        return res[1][4]
-
-    def get_monthly_wins_ranking(self, page: int = 0):
-        current_month: str = time.strftime("%Y%m")
-
-        data = self._msgpacking([current_month, page, 0, -1, 0])
-
-        res: list = self.request.post("ranking/monthly_wins", data)
-        return res[1][4]
-
-    # endregion
+    # def get_chara_level_ranking(self, page: int = 0):
+    #     data = self._msgpacking([page, 0, -1, 0])
+    #
+    #     res: list = self.request.post("ranking/chara_level", data)
+    #     return res[1][4]
+    #
+    # def get_vip_ranking(self, page: int = 0):
+    #     data = self._msgpacking([page, 0, -1, 0])
+    #
+    #     res: list = self.request.post("ranking/vip", data)
+    #     return res[1][4]
+    #
+    # def get_total_wins_ranking(self, page: int = 0):
+    #     data = self._msgpacking([page, 0, -1, 0])
+    #
+    #     res: list = self.request.post("ranking/total_wins", data)
+    #     return res[1][4]
+    #
+    # def get_survival_ranking(self, page: int = 0):
+    #     data = self._msgpacking([page, 0, -1, 0])
+    #
+    #     res: list = self.request.post("ranking/survival", data)
+    #     return res[1][4]
+    #
+    # def get_monthly_wins_ranking(self, page: int = 0):
+    #     current_month: str = time.strftime("%Y%m")
+    #
+    #     data = self._msgpacking([current_month, page, 0, -1, 0])
+    #
+    #     res: list = self.request.post("ranking/monthly_wins", data)
+    #     return res[1][4]

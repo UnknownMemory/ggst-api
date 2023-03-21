@@ -1,4 +1,4 @@
-__version__ = "0.0.5"
-__all__ = ["API", "login"]
+__version__ = "0.0.6"
+__all__ = ["API"]
 
-from GGST.api import API, login
+from GGST.API import API

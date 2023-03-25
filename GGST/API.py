@@ -9,16 +9,13 @@ from .request import Request
 
 
 class API:
-    def __init__(self, steam_id=None, token=None) -> None:
-        self.steam_id: str = steam_id
+    def __init__(self) -> None:
+        self.steam_id: int = None
         self.steam_id_hex: str = None
         self.player_id: str = None
         self.platform: int = None
-        self.token: Union[str, None] = token
+        self.token: Union[str, None] = None
         self.request: Request = Request()
-
-        if steam_id:
-            self.steam_id_hex = hex(steam_id)[:2]
 
     def _get_character(self, character: str) -> int:
         if character in CHARACTERS:

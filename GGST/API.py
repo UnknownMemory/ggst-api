@@ -1,6 +1,5 @@
 from typing import Dict, Tuple, Union
 import json
-import time
 
 from .constants import VERSION, CHARACTERS
 from .crypt import encrypt_request_data
@@ -10,14 +9,16 @@ from .request import Request
 
 
 class API:
-    def __init__(self, player_id: str = None, platform: str = None, token: str = None) -> None:
-        self.steam_id: str = None
+    def __init__(self, steam_id=None, token=None) -> None:
+        self.steam_id: str = steam_id
         self.steam_id_hex: str = None
-        self.player_id: str = player_id
-        self.platform: int = get_platform(platform) if isinstance(platform, str) else platform
+        self.player_id: str = None
+        self.platform: int = None
         self.token: Union[str, None] = token
         self.request: Request = Request()
 
+        if steam_id:
+            self.steam_id_hex = hex(steam_id)[:2]
 
     def _get_character(self, character: str) -> int:
         if character in CHARACTERS:
